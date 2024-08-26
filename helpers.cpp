@@ -14,6 +14,7 @@ namespace Helpers
         coefs.clear();
         std::istringstream linestream{ line };
         double value;
+        
         while (linestream >> value)
         {
             coefs.push_back(value);
