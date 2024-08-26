@@ -2,6 +2,9 @@
 
 #include "interface_classifier.h"
 
+/**
+* @brief Класс классификатор объекта.
+*/
 class LogregClassifier : public IBinaryClassifier
 {
 public:
@@ -9,6 +12,11 @@ public:
 
     LogregClassifier(const coefs_type& coef);
 
+    /**
+    * 
+    * @return 
+    * @param feat 
+    */
     float predict_probability(const features_type& feat) const override;
 
 protected:

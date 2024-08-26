@@ -44,10 +44,13 @@ int main(int args_number, char const** args)
         return -1;
     }
 
+
     std::vector<LogregClassifier> classifiers;
     LogregClassifier::coefs_type coefs;
 
+    // Чтение классификаторов модели данных.
     std::ifstream model_coef_stream(parameters.model_path);
+    
     
     while (true) {
         if (!Helpers::read_coefs(model_coef_stream, coefs)) {
@@ -59,42 +62,44 @@ int main(int args_number, char const** args)
 
     model_coef_stream.close();
 
-    std::ifstream dataInput(parameters.csv_path);
+    // Чтение данных из csv файла.
+    std::ifstream csv_data_stream(parameters.csv_path);
 
     LogregClassifier::features_type features;
     
-    int targetClass;
-    int totalCount = 0;
-    int rightAnswersCount = 0;
+    int target_class;
+    int total_count = 0;
+    int right_answers_number = 0;
 
     while (true) {
-        if (!Helpers::read_features(dataInput, features, targetClass)) {
+        if (!Helpers::read_features(csv_data_stream, features, target_class)) {
             break;
         }
 
-        totalCount++;
+        total_count++;
 
-        float maxResult = -1;
-        size_t maxResultClass = 0;
+        float max_result = -1;
+        size_t max_result_class = 0;
 
         for (size_t i = 0; i < classifiers.size(); i++)
         {
             auto result = classifiers[i].predict_probability(features);
-            if (result > maxResult)
+            if (result > max_result)
             {
-                maxResult = result;
-                maxResultClass = i;
+                max_result = result;
+                max_result_class = i;
             }
         }
 
-        if (maxResultClass == targetClass)
-            rightAnswersCount++;
+        if (max_result_class == target_class) {
+            right_answers_number++;
+        }
     }
 
     float accuracy = 0;
-    if (totalCount > 0)
-    {
-        accuracy = float(rightAnswersCount) / totalCount;
+    
+    if (total_count > 0) {
+        accuracy = float(right_answers_number) / total_count;
     }
 
     std::cout << accuracy << std::endl;

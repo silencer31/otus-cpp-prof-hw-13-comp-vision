@@ -2,6 +2,9 @@
 
 #include <vector>
 
+/**
+* @brief Класс интерфейс классификатора объекта.
+*/
 class IBinaryClassifier
 {
 public:

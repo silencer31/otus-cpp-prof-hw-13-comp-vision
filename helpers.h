@@ -12,6 +12,6 @@ namespace Helpers
 	bool read_coefs(std::istream& stream, std::vector<float>& coefs);
 	
 	
-	bool read_features(std::istream& stream, std::vector<float>& features, int& targetClass);
+	bool read_features(std::istream& stream, std::vector<float>& features, int& target_class);
 
 } // namespace Helpers
