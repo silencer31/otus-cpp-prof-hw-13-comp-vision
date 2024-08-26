@@ -91,7 +91,7 @@ int main(int args_number, char const** args)
             }
         }
 
-        if (max_result_class == target_class) {
+        if (max_result_class == static_cast<size_t>(target_class)) {
             right_answers_number++;
         }
     }
