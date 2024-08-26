@@ -1,46 +1,66 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.5)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
-project(comp_vision VERSION ${PROJECT_VERSION})
+project(fashion_mnist VERSION ${PROJECT_VERSION})
+
+find_package(Boost COMPONENTS program_options filesystem REQUIRED)
+
+if(NOT Boost_FOUND)
+    message(FATAL_ERROR "Boost Not found")
+endif()
+
+include_directories(${Boost_INCLUDE_DIR})
 
 configure_file(version.h.in version.h)
 
 #Main target 
-add_executable(comp_vision main.cpp)
-add_library(lib_comp_vision lib.cpp)
+add_executable(fashion_mnist
+	main.cpp
+	helpers.cpp
+	logreg_classifier.cpp
+	options_reader/options_reader.cpp
+)
 
-set_target_properties(comp_vision lib_comp_vision PROPERTIES
-    CXX_STANDARD 17
+add_library(lib_fashion_mnist
+	lib.cpp
+)
+
+set_target_properties(
+	fashion_mnist
+	lib_fashion_mnist
+	PROPERTIES
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(lib_comp_vision 
+target_include_directories(lib_fashion_mnist 
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-target_link_libraries(comp_vision PRIVATE
-    lib_comp_vision
+target_link_libraries(fashion_mnist PRIVATE
+    ${Boost_LIBRARIES}
+    lib_fashion_mnist
 )
 
 if (MSVC)
-    target_compile_options(comp_vision PRIVATE
+    target_compile_options(fashion_mnist PRIVATE
         /W4
     )
-    target_compile_options(lib_comp_vision PRIVATE
+    target_compile_options(lib_fashion_mnist PRIVATE
         /W4
     )
 else ()
-    target_compile_options(comp_vision PRIVATE
+    target_compile_options(fashion_mnist PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    target_compile_options(lib_comp_vision PRIVATE
+    target_compile_options(lib_fashion_mnist PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
 
-install(TARGETS comp_vision RUNTIME DESTINATION bin)
+install(TARGETS fashion_mnist RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
