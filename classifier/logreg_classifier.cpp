@@ -25,7 +25,7 @@ LogregClassifier::LogregClassifier(const coefficients_vector& coefs)
 float LogregClassifier::predict_probability(const pixels_vector& pixels) const
 {
     if (pixels.size() + 1 != lg_coefficients.size()) {
-        throw std::runtime_error("Pixels vector size mismatch");
+        return -1;
     }
 
     auto z = std::inner_product(pixels.begin(), pixels.end(), ++lg_coefficients.begin(), lg_coefficients.front());

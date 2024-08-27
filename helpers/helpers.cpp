@@ -24,9 +24,13 @@ namespace Helpers
 
     bool read_csv_data_string(std::istream& stream, std::vector<float>& pixels, int& image_class)
     {
+        if (!stream.good()) { return false; }
+
         std::string line;
         std::getline(stream, line);
-
+        
+        if (line.empty()) { return false; }
+       
         std::istringstream linestream{ line };
         
         // Читаем номер класса
