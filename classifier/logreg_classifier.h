@@ -3,7 +3,7 @@
 #include "interface_classifier.h"
 
 /**
-* @brief Класс классификатор объекта.
+* @brief Класс классификатор для логистической регрессии.
 */
 class LogregClassifier : public IBinaryClassifier
 {

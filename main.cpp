@@ -20,7 +20,7 @@ int main(int args_number, char const** args)
         return 0;
     }
 
-    // Проверяем, существует ли файл CSV
+    // Проверяем, существует ли CSV файл с тестовыми данными.
     if (!boost::filesystem::exists(parameters.csv_path)) {
         std::cerr << "Provided file doesn't exist! " << parameters.csv_path << std::endl;;
         return -1;
@@ -32,26 +32,26 @@ int main(int args_number, char const** args)
         return -1;
     }
 
-    // Проверяем, существует ли файл Model
+    // Проверяем, существует ли файл с моделью.
     if (!boost::filesystem::exists(parameters.model_path)) {
         std::cerr << "Provided file doesn't exist! " << parameters.model_path << std::endl;;
         return -1;
     }
 
-    // Проверяем, не пустой ли Model файл.
+    // Проверяем, не пустой ли файл с моделью.
     if (boost::filesystem::is_empty(parameters.model_path)) {
         std::cerr << "Provided file is empty! " << parameters.model_path << std::endl;;
         return -1;
     }
 
-
+    // Классификаторы объектов.
     std::vector<LogregClassifier> classifiers;
     LogregClassifier::coefs_type coefs;
 
-    // Чтение классификаторов модели данных.
+    // Чтение коэффициентов скалярного произведения модели данных.
     std::ifstream model_coef_stream(parameters.model_path);
     
-    
+    // Чтение коэффициентов скалярного произведения
     while (true) {
         if (!Helpers::read_coefs(model_coef_stream, coefs)) {
             break;
