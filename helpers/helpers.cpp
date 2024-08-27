@@ -6,7 +6,7 @@
 namespace Helpers
 {
 
-    bool read_coefs(std::istream& stream, std::vector<float>& coefs)
+    bool read_model_string(std::istream& stream, std::vector<float>& coefficients)
     {
         std::string line;
         std::getline(stream, line);
@@ -14,31 +14,30 @@ namespace Helpers
         std::istringstream linestream{ line };
         float value;
         
-        coefs.clear();
+        coefficients.clear();
         while (linestream >> value) {
-            coefs.push_back(value);
+            coefficients.push_back(value);
         }
 
         return stream.good();
     }
 
-    bool read_features(std::istream& stream, std::vector<float>& features, int& target_class)
+    bool read_csv_data_string(std::istream& stream, std::vector<float>& pixels, int& image_class)
     {
         std::string line;
         std::getline(stream, line);
 
         std::istringstream linestream{ line };
-        bool first = true;
+        
+        // Читаем номер класса
+        std::string class_str;
+        std::getline(linestream, class_str, ',');
+        image_class = std::stoi(class_str);
 
-        features.clear();
+        // Читаем пиксели изображения.
+        pixels.clear();
         for (std::string str; std::getline(linestream, str, ','); ) {
-            if (first) {
-                first = false;
-                target_class = std::stoi(str);
-            }
-            else {
-                features.push_back(static_cast<float>(std::stoi(str)));
-            }
+            pixels.push_back(static_cast<float>(std::stoi(str)));
         }
 
         return stream.good();

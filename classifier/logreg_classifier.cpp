@@ -16,19 +16,19 @@ namespace
 
 }
 
-LogregClassifier::LogregClassifier(const coefs_type& coef)
-    : m_coef(coef)
+LogregClassifier::LogregClassifier(const coefficients_vector& coefs)
+    : lg_coefficients(coefs)
 {
-    assert(!m_coef.empty());
+    assert(!lg_coefficients.empty());
 }
 
-float LogregClassifier::predict_probability(const features_type& feat) const
+float LogregClassifier::predict_probability(const pixels_vector& pixels) const
 {
-    if (feat.size() + 1 != m_coef.size()) {
-        throw std::runtime_error("Feature vector size mismatch");
+    if (pixels.size() + 1 != lg_coefficients.size()) {
+        throw std::runtime_error("Pixels vector size mismatch");
     }
 
-    auto z = std::inner_product(feat.begin(), feat.end(), ++m_coef.begin(), m_coef.front());
+    auto z = std::inner_product(pixels.begin(), pixels.end(), ++lg_coefficients.begin(), lg_coefficients.front());
     
     return sigma(z);
 }

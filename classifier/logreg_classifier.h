@@ -8,17 +8,18 @@
 class LogregClassifier : public IBinaryClassifier
 {
 public:
-    using coefs_type = features_type;
+    // Тип для коэффициентов логистической регрессии.
+    using coefficients_vector = pixels_vector;
 
-    LogregClassifier(const coefs_type& coef);
+    LogregClassifier(const coefficients_vector& coefs);
 
     /**
     * 
     * @return 
     * @param feat 
     */
-    float predict_probability(const features_type& feat) const override;
+    float predict_probability(const pixels_vector& pixels) const override;
 
 protected:
-    coefs_type m_coef;
+    coefficients_vector lg_coefficients;
 };

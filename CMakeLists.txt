@@ -18,9 +18,10 @@ configure_file(version.h.in version.h)
 #Main target 
 add_executable(fashion_mnist
 	main.cpp
-	helpers.cpp
-	logreg_classifier.cpp
+	helpers/helpers.cpp
+	classifier/logreg_classifier.cpp
 	options_reader/options_reader.cpp
+    model_analysis/model_analysis.cpp
 )
 
 add_library(lib_fashion_mnist

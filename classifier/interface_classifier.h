@@ -8,9 +8,9 @@
 class IBinaryClassifier
 {
 public:
-    using features_type = std::vector<float>;
+    using pixels_vector = std::vector<float>;
 
     virtual ~IBinaryClassifier() {}
 
-    virtual float predict_probability(const features_type&) const = 0;
+    virtual float predict_probability(const pixels_vector&) const = 0;
 };
